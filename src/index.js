@@ -1,14 +1,36 @@
+
+import express from 'express'
+import dotenv from 'dotenv'
+
+// Load the environment variables
+dotenv.config()
+
+const port = 3010
+const hostname = '0.0.0.0'
+
 // Get API key from env vars
 const apiKey = process.env.OMDB_API_KEY
-// Create the URL to send the GET request to
-const url = `http://www.omdbapi.com/?apikey=${apiKey}&s=love`
 
-// Option 1
-// Make the fetch request and store the body
-const body = await fetch(url)
-  .then(response => response.json())
-  .catch(error => console.error(error))
-// Get only the titles
-const titles = body.Search
-// Display the list of titles
-console.log(titles)
+const baseUrl = 'http://www.omdbapi.com/'
+const apiUrl = `${baseUrl}?apikey=${apiKey}`
+const searchUrl = `${apiUrl}&s=`
+
+const app = express()
+
+app.get('/media', async (req, res) => {
+  const search = req.query.s
+  // // Create the url to make the request to
+  const body = await fetch(searchUrl + search).then(res => res.json())
+  const titles = body.Search.map((el) => {
+    return `${el.Title} (${el.Year})`
+  })
+  res.json(titles) // By default, express sends the 200 status code
+})
+
+app.get('/', async (req, res) => {
+  res.json({ message: 'Hello World' }) // By default, express sends the 200 status code
+})
+
+app.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`)
+})
