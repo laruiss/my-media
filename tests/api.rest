@@ -1,1 +1,26 @@
-http://localhost:3010/media?s=love
+@omdbApiUrl = https://www.omdbapi.com/?apikey={{omdbApiKey}}
+
+@searchOmdbUrl = {{omdbApiUrl}}&s=
+@mediaOmdbUrl = {{omdbApiUrl}}&i=
+
+@baseUrl = http://localhost:3010
+@omdbBaseUrl = http://localhost:3010/omdb
+
+@searchUrl = {{omdbBaseUrl}}/media?s=
+@idUrl = {{omdbBaseUrl}}/media/
+
+{{searchUrl}}love
+
+###
+
+# @name search
+{{searchOmdbUrl}}warrior
+
+###
+
+{{idUrl}}{{search.response.body.Search.1.imdbID}}
+
+###
+
+
+{{mediaOmdbUrl}}{{search.response.body.Search.1.imdbID}}
