@@ -3,7 +3,7 @@
 @searchOmdbUrl = {{omdbApiUrl}}&s=
 @mediaOmdbUrl = {{omdbApiUrl}}&i=
 
-@baseUrl = http://localhost:3010
+@baseUrl = http://localhost:3000
 @omdbBaseUrl = http://localhost:3010/omdb
 
 @searchUrl = {{omdbBaseUrl}}/media?s=
@@ -24,3 +24,20 @@
 
 
 {{mediaOmdbUrl}}{{search.response.body.Search.1.imdbID}}
+
+###
+
+POST {{baseUrl}}/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "stan@stan.com",
+  "username": "stanislas",
+  "password": "S3CR37p455!"
+}
+
+###
+{{baseUrl}}/users
+
+###
+{{baseUrl}}/users/1

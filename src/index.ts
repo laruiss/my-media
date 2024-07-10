@@ -13,7 +13,9 @@ import type {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 
-import omdbRoutes from './routes/omdb.js'
+import prismaPlugin from './plugins/prisma-plugin.js'
+import omdbRoutes from './routes/omdb/omdb.js'
+import usersRoutes from './routes/users/users-routes.js'
 
 // Load the environment variables
 dotenv.config()
@@ -45,12 +47,24 @@ app.register(fastifySwaggerUI, {
   routePrefix: swaggerDocsPrefix,
 })
 
+app.register(prismaPlugin)
 app.register(omdbRoutes, { prefix: '/omdb' })
+app.register(usersRoutes, { prefix: '/users' })
 
 try {
   await app.ready()
   await app.listen({ port, host })
   app.log.info(`Documentation running at http://${host}:${port}${swaggerDocsPrefix}`)
+  process.on('SIGTERM', async () => { // Kill or kill -9
+    app.log.info('SIGTERM signal has been received. Shutting down...')
+    await app.close()
+    process.exit(0)
+  })
+  process.on('SIGINT', async () => { // Kill or kill -9
+    app.log.info('SIGINT signal has been received. Shutting down...')
+    await app.close()
+    process.exit(0)
+  })
 }
 catch (err) {
   app.log.error(err)

@@ -9,19 +9,44 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Movie {
-  id Int @id @default(autoincrement())
-  title String
-  year Int
+  id     Int     @id @default(autoincrement())
+  title  String
+  year   Int
   poster String
-  imdbID String @unique
+  imdbID String  @unique
+  labels Label[] @relation()
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("movies")
+}
+
+model Label {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  Movie Movie[] @relation()
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("labels")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  username String @unique
+  password String
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@map("users")
 }
