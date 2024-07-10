@@ -2,6 +2,8 @@ import process from 'node:process'
 
 import Fastify from 'fastify'
 import dotenv from 'dotenv'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUI from '@fastify/swagger-ui'
 import {
   jsonSchemaTransform,
   serializerCompiler,
@@ -10,16 +12,15 @@ import {
 import type {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
-import fastifySwagger from '@fastify/swagger'
-import fastifySwaggerUI from '@fastify/swagger-ui'
 
 import omdbRoutes from './routes/omdb.js'
 
 // Load the environment variables
 dotenv.config()
 
-const port = 3010
+const port = 3000
 const host = '0.0.0.0'
+const swaggerDocsPrefix = '/api-docs'
 
 const app = Fastify({
   logger: true,
@@ -28,30 +29,23 @@ const app = Fastify({
   .setSerializerCompiler(serializerCompiler)
   .withTypeProvider<ZodTypeProvider>()
 
-app.register(omdbRoutes, { prefix: '/omdb' })
-
-const swaggerDocsPrefix = '/api-docs'
 app.register(fastifySwagger, {
   openapi: {
     info: {
       title: 'API My Movies',
-      description: 'Description of the My Movies\' API',
+      description: 'Description of the My Movies API',
       version: '1.0.0',
     },
     servers: [],
   },
   transform: jsonSchemaTransform,
-  // You can also create transform with custom skiplist of endpoints
-  // that should not be included in the specification:
-  //
-  // transform: createJsonSchemaTransform({
-  //   skipList: [ '/documentation/static/*' ]
-  // })
 })
 
 app.register(fastifySwaggerUI, {
   routePrefix: swaggerDocsPrefix,
 })
+
+app.register(omdbRoutes, { prefix: '/omdb' })
 
 try {
   await app.ready()
