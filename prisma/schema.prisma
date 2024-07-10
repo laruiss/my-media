@@ -20,7 +20,7 @@ model Movie {
   year   Int
   poster String
   imdbID String  @unique
-  labels Label[] @relation()
+  labels MovieLabel[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -28,10 +28,20 @@ model Movie {
   @@map("movies")
 }
 
+model MovieLabel {
+  movieId Int
+  labelId Int
+  movie   Movie @relation(fields: [movieId], references: [id])
+  label   Label @relation(fields: [labelId], references: [id])
+
+  @@id([movieId, labelId])
+}
+
+
 model Label {
   id    Int     @id @default(autoincrement())
   name  String  @unique
-  Movie Movie[] @relation()
+  Movie MovieLabel[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

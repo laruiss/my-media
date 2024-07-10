@@ -1,10 +1,9 @@
 import process from 'node:process'
 import { z } from 'zod'
-import type { FastifyPluginAsync, FastifyPluginOptions, RawServerBase } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 import type { Media, OmdbSearchResponse } from './omdb-schemas.js'
 import { omdbMediaSchema } from './omdb-schemas.js'
+import { MyMediaPlugin } from '../../types/index.js'
 
 // Get API key from env vars
 const apiKey = process.env.OMDB_API_KEY
@@ -14,7 +13,7 @@ const apiUrl = `${baseUrl}?apikey=${apiKey}`
 const searchUrl = `${apiUrl}&s=`
 const idUrl = `${apiUrl}&i=`
 
-const omdbRoutes: FastifyPluginAsync<FastifyPluginOptions, RawServerBase, ZodTypeProvider> = async function omdbRoutes(app) {
+const omdbRoutes: MyMediaPlugin = async function omdbRoutes(app) {
   app.get('/media', {
     schema: {
       querystring: z.object({ s: z.string() }),

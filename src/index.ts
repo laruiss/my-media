@@ -14,8 +14,10 @@ import type {
 } from 'fastify-type-provider-zod'
 
 import prismaPlugin from './plugins/prisma-plugin.js'
-import omdbRoutes from './routes/omdb/omdb.js'
+import omdbRoutes from './routes/omdb/omdb-routes.js'
 import usersRoutes from './routes/users/users-routes.js'
+import moviesRoutes from './routes/movies/movies-routes.js'
+import labelsRoutes from './routes/labels/labels-routes.js'
 
 // Load the environment variables
 dotenv.config()
@@ -50,6 +52,8 @@ app.register(fastifySwaggerUI, {
 app.register(prismaPlugin)
 app.register(omdbRoutes, { prefix: '/omdb' })
 app.register(usersRoutes, { prefix: '/users' })
+app.register(moviesRoutes, { prefix: '/movies' })
+app.register(labelsRoutes, { prefix: '/labels' })
 
 try {
   await app.ready()

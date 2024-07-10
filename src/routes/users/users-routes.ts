@@ -1,14 +1,7 @@
 import { z } from 'zod'
-import type {
-  FastifyPluginAsync,
-  FastifyPluginOptions,
-  RawServerBase,
-} from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 import { createUserSchema, userOutputSchema } from './users-schema.js'
-
-type MyMediaPlugin = FastifyPluginAsync<FastifyPluginOptions, RawServerBase, ZodTypeProvider>
+import { MyMediaPlugin } from '../../types/index.js'
 
 const usersRoutes: MyMediaPlugin = async function usersRoutes(app) {
   app.post('', {

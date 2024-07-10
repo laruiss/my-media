@@ -41,3 +41,37 @@ Content-Type: application/json
 
 ###
 {{baseUrl}}/users/1
+
+### 
+POST {{baseUrl}}/movies
+Content-Type: application/json
+
+{
+  "imdbID": "tt1291584"
+}
+
+
+### 
+GET {{baseUrl}}/movies
+
+### 
+GET {{baseUrl}}/movies/1
+
+### 
+POST {{baseUrl}}/labels
+Content-Type: application/json
+
+{
+  "name": "science fiction"
+}
+
+###
+POST {{baseUrl}}/movies/1/labels
+Content-Type: application/json
+
+{
+  "name": "science fiction"
+}
+
+###
+DELETE {{baseUrl}}/movies/1/labels/1
