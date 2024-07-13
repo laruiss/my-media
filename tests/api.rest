@@ -4,7 +4,7 @@
 @mediaOmdbUrl = {{omdbApiUrl}}&i=
 
 @baseUrl = http://localhost:3000
-@omdbBaseUrl = http://localhost:3010/omdb
+@omdbBaseUrl = http://localhost:3000/omdb
 
 @searchUrl = {{omdbBaseUrl}}/media?s=
 @idUrl = {{omdbBaseUrl}}/media/
@@ -14,11 +14,11 @@
 ###
 
 # @name search
-{{searchOmdbUrl}}warrior
+{{searchOmdbUrl}}love
 
 ###
 
-{{idUrl}}{{search.response.body.Search.1.imdbID}}
+{{idUrl}}{{search.response.body.Search.0.imdbID}}
 
 ###
 
@@ -47,7 +47,7 @@ POST {{baseUrl}}/movies
 Content-Type: application/json
 
 {
-  "imdbID": "tt1291584"
+  "imdbID": "tt1570728"
 }
 
 
@@ -56,6 +56,9 @@ GET {{baseUrl}}/movies
 
 ### 
 GET {{baseUrl}}/movies/1
+
+### 
+GET {{baseUrl}}/labels
 
 ### 
 POST {{baseUrl}}/labels
@@ -75,3 +78,7 @@ Content-Type: application/json
 
 ###
 DELETE {{baseUrl}}/movies/1/labels/1
+
+
+### 
+GET {{baseUrl}}/labels?q=science

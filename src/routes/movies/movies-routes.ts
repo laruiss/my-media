@@ -3,7 +3,6 @@ import { z } from 'zod'
 import type { MyMediaPlugin } from '../../types/index.js'
 import type { Media } from '../omdb/omdb-schemas.js'
 import config from '../../config.js'
-import { labelOutputSchema } from '../labels/labels-schemas.js'
 
 import { createMovieSchema, movieOutputSchema, populatedMovieOutputSchema } from './movies-schemas.js'
 
