@@ -16,7 +16,7 @@ const moviesRoutes: MyMediaPlugin = async function moviesRoutes (app) {
     },
     handler: async (req, reply) => {
       const imdbID = req.body.imdbID
-      const { Title, Year, Poster } = await fetch(config.idUrl + imdbID).then(res => res.json()) as Media
+      const { Title, Year, Poster } = await fetch(config.omdbIdUrl + imdbID).then(res => res.json()) as Media
       const movie: z.infer<typeof createMovieSchema> = { title: Title, year: +Year, poster: Poster, imdbID }
       const savedMovie = await app.prisma.movie.create({ data: movie })
       reply.status(201)
@@ -62,7 +62,7 @@ const moviesRoutes: MyMediaPlugin = async function moviesRoutes (app) {
         }
       }
 
-      await app.prisma.movieLabel.delete({ where: { movieId_labelId: { labelId, movieId } } })
+      await app.prisma.movieLabel.delete({ where: { movie_label: { labelId, movieId } } })
 
       return {
         status: 200,

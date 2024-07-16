@@ -28,16 +28,6 @@ model Movie {
   @@map("movies")
 }
 
-model MovieLabel {
-  movieId Int
-  labelId Int
-  movie   Movie @relation(fields: [movieId], references: [id])
-  label   Label @relation(fields: [labelId], references: [id])
-
-  @@id([movieId, labelId])
-}
-
-
 model Label {
   id    Int     @id @default(autoincrement())
   name  String  @unique
@@ -47,6 +37,16 @@ model Label {
   updatedAt DateTime @updatedAt
 
   @@map("labels")
+}
+
+model MovieLabel {
+  movieId Int
+  labelId Int
+  movie   Movie @relation(fields: [movieId], references: [id])
+  label   Label @relation(fields: [labelId], references: [id])
+
+  @@id(name: "movie_label", fields: [movieId, labelId])
+  @@map("movies_labels")
 }
 
 model User {
